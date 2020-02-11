@@ -60,17 +60,30 @@ var getExerciseLog = function(userId, done){
     })
 }
 
-var getLogFromTo = function(userId, from, to, done){
+var getExerciseLogFromTo = function(userId, from, to, done){
     findUserById(userId, function(err, data){
         if (err) console.log(err);
         if (!data){
             return done(null, "no user found");
         }
+        Exercise.find({
+          date:{
+            $gte:from,
+            $lte:to
+          }
+        }, (err, data) => {
+            if (err) console.log(err);
+            var exerciseList = [];
+            data.forEach(exercise => {
+                exerciseList.push(exercise);
+            })
+            done(null, data);
+        })
     })
 }
 
 module.exports = {
     addExercise,
     getExerciseLog,
-    getLogFromTo
+    getExerciseLogFromTo
 }

@@ -16,7 +16,8 @@ var findUserById = require("./user.js").findUserById;
 var listAllUsers = require("./user.js").listAllUsers;
 
 var addExercise = require("./exercise.js").addExercise;
-var getExerciseLog = require("./exercise.js").getExerciseLog
+var getExerciseLog = require("./exercise.js").getExerciseLog;
+var getExerciseLogFromTo = require("./exercise.js").getExerciseLogFromTo;
 
 app.use(bodyParser.urlencoded({extended: 'false'}));
 app.use(bodyParser.json());
@@ -64,13 +65,18 @@ router.get("/exercise/users", (req, res, next) => {
 })
 
 router.get("/exercise/log", (req, res, next) => {
-  var t = setTimeout(() => {next({message:'timeout'})}, timeout);
-  if (!req.query.from && !req.query.to){
-    getExerciseLog(req.query.userId, (err, data)=>{
-      if (err) console.log(err);
-          return res.json(data);
-    })
-  }
+    var t = setTimeout(() => {next({message:'timeout'})}, timeout);
+    if (!req.query.from && !req.query.to){
+        getExerciseLog(req.query.userId, (err, data)=>{
+            if (err) console.log(err);
+                return res.json(data);
+        })
+    } else {
+        getExerciseLogFromTo(req.query.userId, req.query.from, req.query.to, (err, data) => {
+            if (err) console.log(err);
+            return res.json(data);
+        })
+    }
 })
 
 router.get("/", (req,res,next) => {
