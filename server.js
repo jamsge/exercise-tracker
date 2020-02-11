@@ -65,7 +65,7 @@ router.get("/exercise/users", (req, res, next) => {
 
 router.get("exercise/log", (req, res, next) => {
   var t = setTimeout(() => {next({message:'timeout'})}, timeout);
-  
+  getExerciseLog()
 })
 
 router.get("/", (req,res,next) => {

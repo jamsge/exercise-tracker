@@ -46,11 +46,14 @@ var createUser = function(username, done){
 var listAllUsers = function(done){
     User.find({}, function(err, users){
         if (err) console.log(err)
-        var userMap = {};
+        
+        var obj = {
+          userList:[]
+        }
         users.forEach(function(user){
-            userMap[user._id] = user;
+            obj.userList.push(user);
         })
-        done(null, userMap)
+        done(null, obj)
     })
 }
 
