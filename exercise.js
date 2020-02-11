@@ -43,10 +43,10 @@ var addExercise = function(userId, description, duration, date, done){
 }
 
 var findUserById = require("./user.js").findUserById;
-var getLog = function(userId, done){
+var getExerciseLog = function(userId, done){
     findUserById(userId, function(err, data){
         if (err) console.log(err);
-        userData = data;
+        var userData = data;
         Exercise.find({"userId":userId}, (err, data) => {
             if (err) console.log(err)
             var exerciseList = [];
@@ -65,6 +65,6 @@ var getLogFromTo = function(userId, from, to, done){
 
 module.exports = {
     addExercise,
-    getLog,
+    getExerciseLog,
     getLogFromTo
 }

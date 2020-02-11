@@ -13,7 +13,10 @@ const timeout = 10000;
 var createUser = require("./user.js").createUser;
 var findUserByUsername = require("./user.js").findUserById;
 var findUserById = require("./user.js").findUserById;
-var listAllUsers = require("./user.js").listAllUsers
+var listAllUsers = require("./user.js").listAllUsers;
+
+var addExercise = require("./exercise.js").addExercise;
+var getExerciseLog = require("./exercise.js").getExerciseLog
 
 app.use(bodyParser.urlencoded({extended: 'false'}));
 app.use(bodyParser.json());
@@ -38,6 +41,14 @@ router.post("/exercise/new-user", (req, res, next)=>{
     })
 })
 
+router.post("/exercise/add", (req, res, next) => {
+    var t = setTimeout(() => {next({message:'timeout'})}, timeout);
+    addExercise(req.body._id, req.body.description, req.body.duration, req.body.date, (err, data)=>{
+        if (err) console.log(err);
+        res.json(data);
+    })
+})
+
 router.get("/exercise/users", (req, res, next) => {
     var t = setTimeout(() => {next({message:'timeout'})}, timeout);
     // console.log(req.body)
@@ -50,6 +61,11 @@ router.get("/exercise/users", (req, res, next) => {
         }
         res.json(data)
     })
+})
+
+router.get("exercise/log", (req, res, next) => {
+  var t = setTimeout(() => {next({message:'timeout'})}, timeout);
+  
 })
 
 router.get("/", (req,res,next) => {
