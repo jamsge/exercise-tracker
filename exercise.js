@@ -46,21 +46,27 @@ var findUserById = require("./user.js").findUserById;
 var getExerciseLog = function(userId, done){
     findUserById(userId, function(err, data){
         if (err) console.log(err);
-        var userData = data;
+        if (!data){
+          return done(null, "no user found")
+        }
         Exercise.find({"userId":userId}, (err, data) => {
             if (err) console.log(err)
             var exerciseList = [];
             data.forEach(exercise => {
                 exerciseList.push(exercise);
             });
-            userData["log"] = exerciseList;
-            done(null, userData);
+            done(null, data);
         })
     })
 }
 
 var getLogFromTo = function(userId, from, to, done){
-    
+    findUserById(userId, function(err, data){
+        if (err) console.log(err);
+        if (!data){
+            return done(null, "no user found");
+        }
+    })
 }
 
 module.exports = {

@@ -54,22 +54,27 @@ router.get("/exercise/users", (req, res, next) => {
     // console.log(req.body)
     listAllUsers(function(err, data){
         clearTimeout(t);
-        if (err) return(next(err))
+        if (err) return(next(err));
         if (!data){
             console.log('Missing `done()` argument');
             return next({message: 'Missing callback argument'});
         }
-        res.json(data)
+        res.json(data);
     })
 })
 
-router.get("exercise/log", (req, res, next) => {
+router.get("/exercise/log", (req, res, next) => {
   var t = setTimeout(() => {next({message:'timeout'})}, timeout);
-  getExerciseLog()
+  if (!req.query.from && !req.query.to){
+    getExerciseLog(req.query.userId, (err, data)=>{
+      if (err) console.log(err);
+          return res.json(data);
+    })
+  }
 })
 
 router.get("/", (req,res,next) => {
-    res.json({online:true})
+    res.json({online:true});
 })
 
 app.use("/api", router);
